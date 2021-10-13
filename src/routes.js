@@ -4,27 +4,51 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './pages/Home'
 import agrot from './pages/Compendio'
 import Culture from './pages/Culturas'
+import Login from './pages/Login'
+import Agrotoxicos from './pages/Agrotoxicos'
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
 const Tab = createBottomTabNavigator()
+
+
 
 function Routes() {
     return (
         <Tab.Navigator
-            initialRouteName="Home"
-            activeColor="#f0edf6"
-            inactiveColor="#3e2465"
-            barStyle={{ paddingBottom: 48, backgroundColor:'#694fad' }}
+        screenOptions= {{
+            headerShown: false
+
+        }}
+            tabBarOptions={{
+                activeTintColor: '#17a2b8',
+                inactiveTintColor: '#fff',
+                tabStyle: {
+                    backgroundColor: '#008c7a',
+                    color: '#17a2b8',
+                    padding: 5,
+                    borderTopColor: '008c7a',
+                },
+                style: {
+                    borderTopColor: 'transparent',
+                    padding: 5
+                },
+               
+
+            }}
+          
         >
             <Tab.Screen
                 name="Home"
                 component={Home}
                 options={{
-                    title: 'Incio',
                     tabBarIcon: ({ focused, size, color }) => (
                         <MaterialCommunityIcons
-                            name="home"
+                            name={!focused ? 'home-outline' : 'home'}
                             color={color}
                             size={size}
                         />
@@ -35,10 +59,10 @@ function Routes() {
                 name="agrot"
                 component={agrot}
                 options={{
-                    title: 'Agrotoxicos',
+                    title: "Agrotoxicos",
                     tabBarIcon: ({ focused, size, color }) => (
                         <MaterialCommunityIcons
-                            name="cube"
+                            name={!focused ? 'cube-outline' : 'cube'}
                             color={color}
                             size={size}
                         />
@@ -51,14 +75,31 @@ function Routes() {
                     title: 'Culturas',
                     tabBarIcon: ({ focused, size, color }) => (
                         <MaterialCommunityIcons
-                            name="bell"
+                            name={focused ? 'carrot' : 'carrot'}
                             color={color}
                             size={size}
                         />
                     )
                 }} />
+
         </Tab.Navigator>
 
     )
 }
-export default Routes
+function MyStack() {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+            headerShown: false
+        }}
+      >
+        <Stack.Screen initialRouteName="Login" name="Login" component={Login} />
+        <Stack.Screen name="home" component={Routes} />
+        <Stack.Screen name="agrotoxicos" component={Agrotoxicos} screenOptions={{
+            headerShown: true
+        }} />
+      </Stack.Navigator>
+    );
+  }
+
+export default MyStack
