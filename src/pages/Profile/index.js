@@ -4,7 +4,7 @@ import { Text, View, Image } from 'react-native';
 export default function Home(){
     return(
         <View>
-            <Text>Pagina Culturas</Text>
+            <Text>Pagina perfil</Text>
         </View>
     )
 }

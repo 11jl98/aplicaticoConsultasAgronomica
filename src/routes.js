@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Home from './pages/Home'
 import agrot from './pages/Compendio'
-import Culture from './pages/Culturas'
+import Profile from './pages/Profile'
 import Login from './pages/Login'
 import Agrotoxicos from './pages/Agrotoxicos'
 
@@ -59,23 +59,23 @@ function Routes() {
                 name="agrot"
                 component={agrot}
                 options={{
-                    title: "Agrotoxicos",
+                    title: "Pesquisa",
                     tabBarIcon: ({ focused, size, color }) => (
                         <MaterialCommunityIcons
-                            name={!focused ? 'cube-outline' : 'cube'}
+                            name={!focused ? 'magnify' : 'magnify'}
                             color={color}
                             size={size}
                         />
                     )
                 }} />
             <Tab.Screen
-                name="Culture"
-                component={Culture}
+                name="Perfil"
+                component={Profile}
                 options={{
-                    title: 'Culturas',
+                    title: 'Perfil',
                     tabBarIcon: ({ focused, size, color }) => (
                         <MaterialCommunityIcons
-                            name={focused ? 'carrot' : 'carrot'}
+                            name={focused ? 'account' : 'account-outline'}
                             color={color}
                             size={size}
                         />

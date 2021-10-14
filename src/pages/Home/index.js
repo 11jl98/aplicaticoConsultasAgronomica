@@ -34,7 +34,7 @@ export default function Home() {
             <Text style={styles.title}>Atualizações da semana</Text>
             {loading === true &&
                 <View style={{ alignItems: 'center', justifyContent:'center' }}>
-                    <ActivityIndicator hidesWhenStopped={loading} size={50} color='#f28705' animating={loading} style={{ position: 'absolute', marginTop: 200}} />
+                    <ActivityIndicator hidesWhenStopped={loading} size={50} color='#f28705' animating={loading} style={{ position: 'absolute', marginTop: 350}} />
                 </View>
             }
             <ScrollView style={styles.scroll}>
@@ -97,10 +97,11 @@ const styles = StyleSheet.create({
     },
     testeData: {
         width: '100%',
-        height: 'auto',
+        height: 40,
         backgroundColor: '#008c7a',
         padding: 5,
         alignItems: 'center',
+        justifyContent: 'center',
         shadowColor: "#000",
         shadowOffset: {
             width: 5,
@@ -174,6 +175,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#008c7a',
         alignItems: 'center',
-        opacity: 0.5
+        opacity: 0.1
     },
 })

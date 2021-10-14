@@ -32,7 +32,7 @@ export default function Compendio({navigation}) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Pesquisa de Agrotoxicos</Text>
+            <Text style={styles.title}>Pesquisa por Culturas</Text>
             <View style={styles.inputArea}>
                 <TextInput
                     style={styles.input}
@@ -60,11 +60,9 @@ export default function Compendio({navigation}) {
                     <Text  style={styles.subTitle}>Solo indicado</Text>
                     <Text>{e.SOLO}</Text>
                     <Text  style={styles.subTitle}>Indicados para tratar:</Text>
-                    <Button
-                     title='Clique aqui para abrir'
-                     onPress={ () => pageAgrotoxico(e) }
-                     color="#17a2b8"
-                 />
+                    <TouchableOpacity  style={styles.inputAreaDiag} onPress={ () => pageAgrotoxico(e) }>
+                    <Text>ABRA AQUI</Text>
+                 </TouchableOpacity>
 
                 </View>
             )}
@@ -104,6 +102,16 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         alignItems: 'center',
         marginTop: 10,
+
+    },
+    inputAreaDiag: {
+        width: '50%',
+        height:40,
+        backgroundColor: '#dcdcdc',
+        borderRadius: 50,
+        alignItems: 'center',
+        marginTop: 10,
+        justifyContent: 'center',
 
     },
     icon: {
