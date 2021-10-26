@@ -29,29 +29,29 @@ export default function Home() {
         }
     }
     return (
-        
+
         <View style={loading === false ? styles.container : styles.loading} >
+              {loading === true &&
+                <ActivityIndicator hidesWhenStopped={loading} size={50}
+                 color='#f28705' animating={loading} style={{ position: 'absolute'}} />
+                }
             <Text style={styles.title}>Atualizações da semana</Text>
-            {loading === true &&
-                <View style={{ alignItems: 'center', justifyContent:'center' }}>
-                    <ActivityIndicator hidesWhenStopped={loading} size={50} color='#f28705' animating={loading} style={{ position: 'absolute', marginTop: 350}} />
-                </View>
-            }
-            <ScrollView style={styles.scroll}>
+
+            <ScrollView  showsVerticalScrollIndicator={false} style={styles.scroll}>
+              
                 <FlatList
                     data={data}
                     keyExtractor={item => String(item.IDRELATATUALIZACAO)}
                     renderItem={({ item }) => <ListItem data={item} />}
                 />
             </ScrollView>
-
         </View>
     );
 }
 
 function ListItem({ data }) {
     return (
-        <View style={{ marginTop: 5 }}>
+        <View style={{alignItems:'center'}}>
             <View style={styles.testeData}>
                 <Text style={styles.primary}>{data.DATA.split('-').reverse().join('/')}</Text>
             </View>
@@ -77,21 +77,14 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     teste: {
-        width: '100%',
+        width: '90%',
         height: 'auto',
         backgroundColor: '#fff',
         color: '#f28705',
         padding: 5,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 5,
-            height: 5,
-        },
-        shadowOpacity: 0.53,
-        shadowRadius: 10,
-        elevation: 21,
-        borderRadius: 10,
         alignItems: 'center',
+        opacity: 0.9,
+        borderRadius: 10
 
 
     },
@@ -102,21 +95,12 @@ const styles = StyleSheet.create({
         padding: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 5,
-            height: 5,
-        },
-        shadowOpacity: 0.53,
-        shadowRadius: 10,
-        elevation: 21,
-        borderRadius: 10,
-        marginBottom: 5
-
+        marginBottom: 5,
+        opacity: 0.9
 
     },
     scroll: {
-        backgroundColor: '#fff'
+        backgroundColor: '#008c7a'
     },
     principal: {
         width: '100%',
@@ -127,19 +111,20 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        fontSize: 25,
-        padding: 5,
+        fontSize: 15,
         textAlign: 'center',
         color: '#fff',
         fontWeight: '900',
         fontSize: 35,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 10
 
     },
     subTitle: {
         padding: 5,
         textAlign: 'center',
-        color: '#f28705',
+        color: '#ef8e18e0',
         fontWeight: '900',
         textAlign: 'center',
         fontWeight: 'bold'
@@ -158,7 +143,9 @@ const styles = StyleSheet.create({
     },
     secondary: {
         fontWeight: '500',
-        color: '#000'
+        color: '#000',
+        marginLeft: 20,
+        marginRight: 15,
 
     },
     porTras: {
@@ -168,13 +155,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         padding: 5,
-        marginLeft: 1
+        marginLeft: 1,
 
     },
     loading: {
         flex: 1,
         backgroundColor: '#008c7a',
         alignItems: 'center',
+        justifyContent: 'center',
         opacity: 0.1
     },
 })

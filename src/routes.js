@@ -1,10 +1,11 @@
 import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createMaterialTopTabNavigator  } from '@react-navigation/material-top-tabs'
 
 import Home from './pages/Home'
 import agrot from './pages/Compendio'
 import Profile from './pages/Profile'
 import Login from './pages/Login'
+import Diagnosticos from './pages/Diagnosticos'
 import Agrotoxicos from './pages/Agrotoxicos'
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
@@ -13,36 +14,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-const Tab = createBottomTabNavigator()
+const top = createMaterialTopTabNavigator()
 
 
 
 function Routes() {
     return (
-        <Tab.Navigator
-        screenOptions= {{
-            headerShown: false
+        <top.Navigator  
+        screenOptions={{
+            tabBarLabelStyle: { fontSize: 15, color: '#fff' },
+            tabBarStyle: { backgroundColor: '#008c7a'},
+            tabBarActiveTintColor: '#fff',
+            tabBarIndicatorStyle:{ backgroundColor: '#fff'}
+          }}
 
-        }}
-            tabBarOptions={{
-                activeTintColor: '#17a2b8',
-                inactiveTintColor: '#fff',
-                tabStyle: {
-                    backgroundColor: '#008c7a',
-                    color: '#17a2b8',
-                    padding: 5,
-                    borderTopColor: '008c7a',
-                },
-                style: {
-                    borderTopColor: 'transparent',
-                    padding: 5
-                },
-               
-
-            }}
-          
         >
-            <Tab.Screen
+            <top.Screen
                 name="Home"
                 component={Home}
                 options={{
@@ -50,25 +37,25 @@ function Routes() {
                         <MaterialCommunityIcons
                             name={!focused ? 'home-outline' : 'home'}
                             color={color}
-                            size={size}
+                            size={25}
                         />
                     )
                 }} />
 
-            <Tab.Screen
+            <top.Screen
                 name="agrot"
                 component={agrot}
                 options={{
-                    title: "Pesquisa",
+                    title:"pesquisa",
                     tabBarIcon: ({ focused, size, color }) => (
                         <MaterialCommunityIcons
                             name={!focused ? 'magnify' : 'magnify'}
                             color={color}
-                            size={size}
+                            size={25}
                         />
                     )
                 }} />
-            <Tab.Screen
+            <top.Screen
                 name="Perfil"
                 component={Profile}
                 options={{
@@ -77,29 +64,30 @@ function Routes() {
                         <MaterialCommunityIcons
                             name={focused ? 'account' : 'account-outline'}
                             color={color}
-                            size={size}
+                            size={25}
                         />
                     )
                 }} />
 
-        </Tab.Navigator>
+        </top.Navigator>
 
     )
 }
 function MyStack() {
     return (
-      <Stack.Navigator
-        screenOptions={{
-            headerShown: false
-        }}
-      >
-        <Stack.Screen initialRouteName="Login" name="Login" component={Login} />
-        <Stack.Screen name="home" component={Routes} />
-        <Stack.Screen name="agrotoxicos" component={Agrotoxicos} screenOptions={{
-            headerShown: true
-        }} />
-      </Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                headerStyle:{backgroundColor: '#008c7a',borderBottomColor:'transparent'},
+                headerTransparent:true
+            }}
+        >
+            <Stack.Screen initialRouteName="Login" name="Login" component={Login} />
+            <Stack.Screen name="Consultas" component={Routes} />
+            <Stack.Screen name="Diagnosticos" component={Diagnosticos} />
+            <Stack.Screen name="Agrotoxicos" component={Agrotoxicos} />
+        </Stack.Navigator>
     );
-  }
+}
 
 export default MyStack

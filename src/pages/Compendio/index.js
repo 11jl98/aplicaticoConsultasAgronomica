@@ -1,37 +1,42 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Button, View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { Button, View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 
 import api from '../../services/api'
 
 
 
-export default function Compendio({navigation}) {
+export default function Compendio({ navigation }) {
 
 
 
     const [inputText, setInput] = useState("")
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
 
-   
-    const  listCultura = async (text) => {
+
+
+    const listCultura = async (text) => {
         try {
+            setLoading(true)
             const response = await api.get(`items/culturas?filter[NOME][_eq]=${text}`)
             setData(response.data.data)
-            console.log(response)
-            console.log('esse trem aqui',data)
+            setLoading(false)
+            console.log(response.data.data)
+            console.log('esse trem aqui', data)
         } catch (error) {
             console.log('erro aqui', error)
+            setLoading(false)
         }
     }
 
-    const pageAgrotoxico = (dados) => {
+    const pageDiag = (dados) => {
         console.log('ta aquiii', dados)
-        navigation.navigate("agrotoxicos", {data: dados });
+        navigation.navigate("Diagnosticos", { data: dados });
     }
 
     return (
-        <View style={styles.container}>
+        <View style={loading === false ? styles.container : styles.loading}>
             <Text style={styles.title}>Pesquisa por Culturas</Text>
             <View style={styles.inputArea}>
                 <TextInput
@@ -44,28 +49,50 @@ export default function Compendio({navigation}) {
                     <Ionicons name="search" color="#fff" size={25} />
                 </TouchableOpacity>
             </View>
-            <ScrollView style={{width:'100%'}}>
-            {data.map((e, key) => 
-                <View key={key} style={styles.agrotoxicoView}>
-                    <Text  style={styles.subTitle}>Nome</Text>
-                    <Text>{e.NOME}</Text>
-                    <Text style={styles.subTitle}>Nome ciêntifico</Text>
-                    <Text >{e.NOMECIENTIFICO}</Text>
-                    <Text  style={styles.subTitle}>Caracteristicas</Text>
-                    <Text>{e.CARACTERISTICAS}</Text>
-                    <Text  style={styles.subTitle}>Melhor epoca para plantio</Text>
-                    <Text>{e.EPOCAPLANTIO}</Text>
-                    <Text  style={styles.subTitle}>Melhor epoca para colheita</Text>
-                    <Text>{e.EPOCACOLHEITA}</Text>
-                    <Text  style={styles.subTitle}>Solo indicado</Text>
-                    <Text>{e.SOLO}</Text>
-                    <Text  style={styles.subTitle}>Indicados para tratar:</Text>
-                    <TouchableOpacity  style={styles.inputAreaDiag} onPress={ () => pageAgrotoxico(e) }>
-                    <Text>ABRA AQUI</Text>
-                 </TouchableOpacity>
+            {loading === true &&
+                <ActivityIndicator hidesWhenStopped={loading} size={50}
+                    color='#f28705' animating={loading} style={{ position: 'absolute' }} />
+            }
+            <ScrollView
+             style={{ width: '100%' }}
+             showsVerticalScrollIndicator={false}>
+                <View style={{ alignItems: 'center' }}>
+                    {data.map((e, key) =>
+                        <View key={key} style={styles.culturasView}>
+                            <View  style={styles.dadosCultura}>
+                                <Text style={styles.subTitle}>Nome</Text>
+                                <Text style={styles.textInfos}>{e.NOME}</Text>
+                            </View>
+                            <View  style={styles.dadosCultura}>
+                                <Text style={styles.subTitle}>Nome ciêntifico</Text>
+                                <Text style={styles.textInfos}>{e.NOMECIENTIFICO}</Text>
+                            </View>
+                            <View  style={styles.dadosCultura}>
+                                <Text style={styles.subTitle}>Caracteristicas</Text>
+                                <Text style={styles.textInfos}>{e.CARACTERISTICAS}</Text>
+                            </View>
+                            <View  style={styles.dadosCultura}>
+                                <Text style={styles.subTitle}>Melhor época para plantio</Text>
+                                <Text style={styles.textInfos}>{e.EPOCAPLANTIO}</Text>
+                            </View>
+                            <View  style={styles.dadosCultura}>
+                                <Text style={styles.subTitle}>Melhor época para colheita</Text>
+                                <Text style={styles.textInfos}>{e.EPOCACOLHEITA}</Text>
+                            </View>
+                            <View  style={styles.dadosCultura}>
+                                <Text style={styles.subTitle}>Solo indicado</Text>
+                                <Text style={styles.textInfos}>{e.SOLO}</Text>
+                            </View>
+                            <View  style={styles.dadosCultura}>
+                                <Text style={styles.subTitle}>Indicados para tratar:</Text>
+                                <TouchableOpacity style={styles.inputAreaDiag} onPress={() => pageDiag(e)}>
+                                    <Text style={{ color: '#fff' }}>ABRA AQUI</Text>
+                                </TouchableOpacity>
+                            </View>
 
+                        </View>
+                    )}
                 </View>
-            )}
             </ScrollView>
 
         </View>
@@ -86,7 +113,7 @@ const styles = StyleSheet.create({
         fontSize: 18
 
     },
-    listAgro:{
+    listAgro: {
         width: '100%',
         height: 35,
         color: '#f28705',
@@ -99,16 +126,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '90%',
         backgroundColor: '#dcdcdc',
-        borderRadius: 50,
+        borderRadius: 10,
         alignItems: 'center',
+        justifyContent: 'space-between',
         marginTop: 10,
+        marginBottom: 15
 
     },
     inputAreaDiag: {
-        width: '50%',
-        height:40,
-        backgroundColor: '#dcdcdc',
-        borderRadius: 50,
+        width: '100%',
+        height: 40,
+        backgroundColor: '#17a2b8',
+        borderRadius: 10,
         alignItems: 'center',
         marginTop: 10,
         justifyContent: 'center',
@@ -120,28 +149,35 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    agrotoxicoView: {
+    culturasView: {
         width: '100%',
+        height: 'auto',
+        backgroundColor: '#008c7a',
+        color: '#f28705',
+        padding: 5,
+        marginTop: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 10
+    },
+    dadosCultura: {
+        width: '90%',
         height: 'auto',
         backgroundColor: '#fff',
         color: '#f28705',
         padding: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
-        marginTop: 10,
+        marginTop: 30,
         alignItems: 'center',
-        justifyContent:'center',
-        borderRadius:10,
-        padding:10,
-        marginTop: 40,
-
+        justifyContent: 'center',
+        padding: 10,
+        marginTop: 10,
+        opacity: 0.9,
+        borderRadius: 10
     },
     title: {
         fontSize: 25,
-        padding: 5,
         textAlign: 'center',
         color: '#fff',
         fontWeight: '900',
@@ -152,9 +188,22 @@ const styles = StyleSheet.create({
     subTitle: {
         padding: 5,
         textAlign: 'center',
-        color: '#f28705',
+        color: '#ef8e18e0',
         fontWeight: '900',
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 20
     },
+    loading: {
+        flex: 1,
+        backgroundColor: '#008c7a',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.1
+    },
+    textInfos: {
+        color: '#323232',
+        fontSize: 17
+
+    }
 })

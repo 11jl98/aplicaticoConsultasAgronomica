@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Button, View, StyleSheet, TextInput, Image, Text, ActivityIndicator } from 'react-native';
+import { Button, View, StyleSheet, TextInput, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 
 import apiEmpresa from '../../services/apiEmpresa'
 
@@ -23,7 +23,7 @@ export default function Login({ navigation }) {
             setLoading(false)
 
             if (response.data.token) {
-                navigation.navigate("home", { data: response.data.token })
+                navigation.navigate("Consultas", { data: response.data.token })
             }
 
         } catch (error) {
@@ -55,12 +55,9 @@ export default function Login({ navigation }) {
                         onChangeText={(texto) => setPassword(texto)}
                         secureTextEntry={true}
                     />
-                    <Button
-                        title='Acessar'
-                        color="#17a2b8"
-                        style={styles.loginButton}
-                        onPress={() => Logar()}
-                    />
+                    <TouchableOpacity style={styles.loginButton} onPress={ () => Logar()}>
+                        <Text style={{color:'#fff'}}>ACESSAR</Text>
+                    </TouchableOpacity>
         </View>
     )
 
@@ -121,13 +118,17 @@ const styles = StyleSheet.create({
         height: 50,
         color: '#fff',
         borderRadius: 10,
+        backgroundColor: '#17a2b8',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop:10
 
     },
     loading: {
         flex: 1,
         backgroundColor: '#008c7a',
         alignItems: 'center',
-        opacity: 0.3
+        opacity: 0.1
     },
     ViewLoading:{
         alignItems: 'center',
